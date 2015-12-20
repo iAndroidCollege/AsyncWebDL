@@ -4,17 +4,8 @@ import org.joda.time.DateTime;
 
 
 public class Reddit {
-    //Private data members:
-    public String title;
-    public String thumbnail;
-    public Integer created_utc;
 
-  // public DateTime created;
-
-    public Reddit(){
-
-    }
-
+    public long created_utc;
 
 
     @Override
@@ -22,17 +13,20 @@ public class Reddit {
         return "Reddit{" +
                 "title='" + title + '\'' +
                 ", thumbnail='" + thumbnail + '\'' +
-                ", created=" + created_utc +
+                ", created=" + created +
                 '}';
     }
 
-
+    //Private data members:
+    private String title;
+    private String thumbnail;
+    private DateTime created;
 
     //Constructors:
     public Reddit(String title, String thumbnail, DateTime created) {
         this.title = title;
         this.thumbnail = thumbnail;
-       // this.created = created;
+        this.created = created;
     }
 
     /*
@@ -46,8 +40,8 @@ public class Reddit {
         return thumbnail;
     }
 
-    //public DateTime getCreated() {
-        //return created;
-    //}
+    public DateTime getCreated() {
+        return created;
+    }
 
 }

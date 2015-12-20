@@ -3,8 +3,7 @@ package dal;
 import android.os.AsyncTask;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-
+import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,18 +45,14 @@ public class WebDLAsyncTask extends AsyncTask<String, Integer, ArrayList<Reddit>
             JSONObject data = new JSONObject(json).getJSONObject("data");
             JSONArray children = data.getJSONArray("children");
             for (int i = 0; i < children.length(); i++) {
-                JSONObject childData = children.getJSONObject(i).getJSONObject("data");
+               JSONObject childData = children.getJSONObject(i).getJSONObject("data");
 
-                Gson gson = new Gson();
-                Reddit reddit = gson.fromJson(childData.toString(), Reddit.class);
+               String title = childData.getString("title");
+               String thumb = childData.getString("thumbnail");
+               Long created_utc = childData.getLong("created_utc");
 
-//                String title = childData.getString("title");
-//                String thumb = childData.getString("thumbnail");
-//                Long created_utc = childData.getLong("created_utc");
-//
-//
-//                Reddit r = new Reddit(title, thumb, new DateTime(created_utc*1000));
-                reddits.add(reddit);
+               Reddit r = new Reddit(title, thumb, new DateTime(created_utc*1000));
+               reddits.add(r);
             }
 
 
