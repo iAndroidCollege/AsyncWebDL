@@ -9,13 +9,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import utils.HTTPUtils;
-import utils.IOUtils;
+import dal.WebDLAsyncTask;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,35 +35,15 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dlWithThread();
+
             }
         });
     }
 
-    private void dlWithThread() {
-        Thread t1 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                dlJsonToTextView();
-            }
-        });
-
-        t1.start();
-    }
-
-    private void dlJsonToTextView() {
-        try {
-            InputStream in = HTTPUtils.getInputStrem(FEED_URL);
-            final String response = IOUtils.readStream(in);
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    tvJson.setText(response);
-                }
-            });
-        } catch (IOException e) {
-           e.getMessage();
-        }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        new WebDLAsyncTask(tvJson).execute(FEED_URL);
     }
 
     @Override
